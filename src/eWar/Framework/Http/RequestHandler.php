@@ -23,6 +23,11 @@ class RequestHandler
      */
     private $matcher;
 
+    /**
+     * @var array
+     */
+    private $routeData;
+
 
     /**
      * RequestHandler constructor.
@@ -42,20 +47,24 @@ class RequestHandler
      */
     public function getRoute() : RequestObject
     {
-        $raw = $this->getRouteData();
-        $payload = $raw->getPayload();
+        if(!$this->routeData) {
+            $raw = $this->getRouteData();
+            $payload = $raw->getPayload();
 
-        if ($raw->getError()) {
-            $this->throwError($raw->getError());
+            if ($raw->getError()) {
+                $this->throwError($raw->getError());
+            }
+
+            foreach ($raw->getPayload() as $name => $value) {
+                settype($payload[$name], $this->routes[$raw->getName()]->types->$name ?? 'string');
+            }
+
+            $raw->setPayload($payload);
+            $this->routeData = $raw;
         }
 
-        foreach ($raw->getPayload() as $name => $value) {
-            settype($payload[$name], $this->routes[$raw->getName()]->types->$name ?? 'string');
-        }
 
-        $raw->setPayload($payload);
-
-        return $raw;
+        return $this->routeData;
     }
 
 

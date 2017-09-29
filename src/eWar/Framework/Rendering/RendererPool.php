@@ -27,8 +27,8 @@ class RendererPool
      */
     public function __construct(RequestHandler $requestHandler, string $appDir)
     {
-        $this->renderer[PageRenderer::class] = new PageRenderer($requestHandler, $appDir);
-        $this->renderer[JsonRenderer::class] = new JsonRenderer($requestHandler, $appDir);
+        $type = $requestHandler->getRoute()->getType();
+        $this->renderer[$type] = new $type($requestHandler, $appDir);
     }
 
 
@@ -62,12 +62,8 @@ class RendererPool
      *
      * @return RendererInterface
      */
-    public function getRendererByName($name) : RendererInterface
+    public function getRendererByClass($class) : RendererInterface
     {
-        if ($name === 'json') {
-            return $this->renderer[JsonRenderer::class];
-        }
-
-        return $this->renderer[PageRenderer::class];
+        return $this->renderer[$class];
     }
 }

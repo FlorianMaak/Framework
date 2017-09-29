@@ -76,7 +76,7 @@ abstract class AbstractApplication
             $instance = $reflection->newInstanceWithoutConstructor();
             $controller = $routeData->getController();
             $viewController = new $controller($this->getConnectors($instance::getConnectors()));
-            $this->renderer = $this->rendererPool->getRendererByName($routeData->getType());
+            $this->renderer = $this->rendererPool->getRendererByClass($routeData->getType());
             $this->renderer->prepare($viewController);
             $viewController->{$routeData->getAction()}($this->renderer, $routeData->getPayload());
         } catch (\ReflectionException $e) {
