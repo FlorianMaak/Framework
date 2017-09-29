@@ -72,7 +72,7 @@ abstract class AbstractApplication
             $viewController = new $controller($this->getConnectors($instance::getConnectors()));
             $this->renderer = new $rendererType($this->requestHandler, $this->getAppDir());
             $this->renderer->prepare($viewController);
-            $viewController->{$routeData->getAction()}($this->renderer, $routeData->getPayload());
+            $viewController->{$routeData->getAction()}($this->renderer, $routeData);
         } catch (\ReflectionException $e) {
             $this->requestHandler->throwError(503);
         }
