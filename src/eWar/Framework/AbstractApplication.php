@@ -6,7 +6,6 @@ use eWar\Framework\Connector\ConnectorPool;
 use eWar\Framework\Database\Connection;
 use eWar\Framework\Http\RequestHandler;
 use eWar\Framework\Rendering\Renderer\RendererInterface;
-use eWar\Framework\Rendering\RendererPool;
 
 /**
  * Class AbstractApplication
@@ -18,11 +17,6 @@ abstract class AbstractApplication
      * @var RendererInterface
      */
     private $renderer;
-
-    /**
-     * @var RendererPool
-     */
-    private $rendererPool;
 
     /**
      * @var RequestHandler
@@ -54,7 +48,6 @@ abstract class AbstractApplication
         define('GLOBAL_DIR', PUBLIC_DIR . '/../');
 
         $this->requestHandler = new RequestHandler();
-        $this->rendererPool = new RendererPool($this->requestHandler, $this->getAppDir());
 
         $this->loadRoute();
     }
@@ -66,6 +59,7 @@ abstract class AbstractApplication
     private function loadRoute() : void
     {
         $routeData = $this->requestHandler->getRoute();
+        $rendererType = $routeData->getType();
 
         try {
             if (! class_exists($routeData->getController())) {
@@ -76,7 +70,7 @@ abstract class AbstractApplication
             $instance = $reflection->newInstanceWithoutConstructor();
             $controller = $routeData->getController();
             $viewController = new $controller($this->getConnectors($instance::getConnectors()));
-            $this->renderer = $this->rendererPool->getRendererByClass($routeData->getType());
+            $this->renderer = new $rendererType($this->requestHandler, $this->getAppDir());
             $this->renderer->prepare($viewController);
             $viewController->{$routeData->getAction()}($this->renderer, $routeData->getPayload());
         } catch (\ReflectionException $e) {
