@@ -1,6 +1,6 @@
 {
   "name": "ewar/framework",
-  "version": "0.1",
+  "version": "0.2",
   "description": "The PHP micro-framework based on PHP7.1",
   "keywords": [
     "microframework"
