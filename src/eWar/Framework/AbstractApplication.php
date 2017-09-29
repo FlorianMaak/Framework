@@ -51,7 +51,7 @@ abstract class AbstractApplication
     public function __construct()
     {
         define('PUBLIC_DIR', $_SERVER['DOCUMENT_ROOT']);
-        define('GLOBAL_DIR', __DIR__ . '/../../..');
+        define('GLOBAL_DIR', PUBLIC_DIR . '/../');
 
         $this->requestHandler = new RequestHandler();
         $this->rendererPool = new RendererPool($this->requestHandler, $this->getAppDir());
