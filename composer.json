@@ -1,0 +1,26 @@
+{
+  "name": "ewar/framework",
+  "version": "0.1",
+  "description": "The PHP micro-framework based on PHP7.1",
+  "keywords": [
+    "microframework"
+  ],
+  "homepage": "https://ewar.eu",
+  "license": "GNU General Public License v3.0",
+  "authors": [
+    {
+      "name": "Florian Maak",
+      "email": "fmaak@outlook.de"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "eWar\\Framework\\": "src/eWar/Framework"
+    }
+  },
+  "require": {
+    "twig/twig": "^2.0",
+    "symfony/http-foundation": "^3.3",
+    "symfony/routing": "^3.3"
+  }
+}

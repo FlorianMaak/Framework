@@ -1,0 +1,11 @@
+{
+  "index": {
+    "route": "/",
+    "method": "GET",
+    "output": {
+      "controller": "eWar\\Blog\\Controller\\IndexController",
+      "action": "showBlog",
+      "type": "page"
+    }
+  }
+ }
