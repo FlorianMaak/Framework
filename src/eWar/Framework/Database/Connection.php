@@ -132,7 +132,7 @@ class Connection
      */
     public function andWhere(string $condition) : Connection
     {
-        $this->queryString(' AND ' . $this->pdo->quote($condition));
+        $this->queryString(' AND ' . $condition);
 
         return $this;
     }
@@ -161,11 +161,23 @@ class Connection
     {
         $this->getPreparedStatement()->execute();
         $result = $this->getPreparedStatement()->fetch();
+        $this->clearQuery();
+
+        return $result ?: null;
+    }
+
+
+    /**
+     * clearQuery
+     */
+    private function clearQuery() : void
+    {
+        unset($this->queryString[$this->currentIndex]);
+        unset($this->preparedStatement[$this->currentIndex]);
+
         if ($this->currentIndex > 0) {
             $this->currentIndex--;
         }
-
-        return $result ?: null;
     }
 
 
@@ -177,10 +189,7 @@ class Connection
     {
         $this->getPreparedStatement()->execute();
         $result = $this->getPreparedStatement()->fetchAll();
-
-        if ($this->currentIndex > 0) {
-            $this->currentIndex--;
-        }
+        $this->clearQuery();
 
         return $result ?: null;
     }
