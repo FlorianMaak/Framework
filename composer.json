@@ -22,5 +22,8 @@
     "twig/twig": "^2.0",
     "symfony/http-foundation": "^3.3",
     "symfony/routing": "^3.3"
+  },
+  "scripts": {
+    "doc": "phpdoc run -d src -t doc"
   }
 }

@@ -47,7 +47,7 @@ abstract class AbstractApplication
         define('PUBLIC_DIR', $_SERVER['DOCUMENT_ROOT']);
         define('GLOBAL_DIR', PUBLIC_DIR . '/../');
 
-        $this->requestHandler = new RequestHandler();
+        $this->requestHandler = new RequestHandler($this->getRoutes());
 
         $this->loadRoute();
     }
@@ -96,6 +96,13 @@ abstract class AbstractApplication
 
         return $this->appDir;
     }
+
+
+    /**
+     * getRoutes
+     * @return array
+     */
+    abstract public function getRoutes() : array;
 
 
     /**

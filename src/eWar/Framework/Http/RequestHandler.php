@@ -31,10 +31,12 @@ class RequestHandler
 
     /**
      * RequestHandler constructor.
+     *
+     * @param array $routes
      */
-    public function __construct()
+    public function __construct(array $routes)
     {
-        $this->routes = $this->loadRoutes();
+        $this->routes = $routes;
         $routeCollection = $this->buildCollection();
         $context = new RequestContext('/');
         $this->matcher = new UrlMatcher($routeCollection, $context);
@@ -47,7 +49,7 @@ class RequestHandler
      */
     public function getRoute() : RequestObject
     {
-        if(!$this->routeData) {
+        if (! $this->routeData) {
             $raw = $this->getRouteData();
             $payload = $raw->getPayload();
 
@@ -62,7 +64,6 @@ class RequestHandler
             $raw->setPayload($payload);
             $this->routeData = $raw;
         }
-
 
         return $this->routeData;
     }
@@ -93,20 +94,6 @@ class RequestHandler
         }
 
         return $output;
-    }
-
-
-    /**
-     * loadRoutes
-     * @return array
-     */
-    private function loadRoutes() : array
-    {
-        if (! $this->routes) {
-            $this->routes = (array) json_decode(file_get_contents(GLOBAL_DIR . '/config/routes.json'));
-        }
-
-        return $this->routes;
     }
 
 
