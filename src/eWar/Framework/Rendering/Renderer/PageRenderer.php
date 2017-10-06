@@ -3,7 +3,6 @@
 namespace eWar\Framework\Rendering\Renderer;
 
 use eWar\Framework\Http\RequestHandler;
-use eWar\Framework\Rendering\PageControllerInterface;
 use eWar\Framework\Rendering\ViewControllerInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -64,8 +63,6 @@ class PageRenderer implements RendererInterface
      */
     public function prepare(ViewControllerInterface $ctrl) : void
     {
-        /** @var PageControllerInterface $ctrl */
-        $this->setPageTitle($ctrl->getPageTitle());
     }
 
 

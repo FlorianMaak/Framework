@@ -160,7 +160,7 @@ class Connection
     public function getSingleResult() : ?array
     {
         $this->getPreparedStatement()->execute();
-        $result = $this->getPreparedStatement()->fetch();
+        $result = $this->getPreparedStatement()->fetch(\PDO::FETCH_ASSOC);
         $this->clearQuery();
 
         return $result ?: null;
@@ -188,7 +188,7 @@ class Connection
     public function getResult() : ?array
     {
         $this->getPreparedStatement()->execute();
-        $result = $this->getPreparedStatement()->fetchAll();
+        $result = $this->getPreparedStatement()->fetchAll(\PDO::FETCH_ASSOC);
         $this->clearQuery();
 
         return $result ?: null;

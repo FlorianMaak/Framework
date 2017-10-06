@@ -22,7 +22,7 @@ class ConnectorPool
      * @param array      $connectorNames
      * @param Connection $connection
      */
-    public function __construct(array $connectorNames, Connection $connection)
+    public function __construct(array $connectorNames, Connection $connection = null)
     {
         foreach ($connectorNames as $name) {
             try {

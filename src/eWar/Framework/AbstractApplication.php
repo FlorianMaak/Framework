@@ -114,8 +114,13 @@ abstract class AbstractApplication
      */
     private function getConnectors(array $connectorNames) : ConnectorPool
     {
+        $connection = null;
         if (! $this->connectorPool) {
-            $this->connectorPool = new ConnectorPool($connectorNames, new Connection($this->loadConfig('database')));
+            if ($credentials = $this->loadConfig('database')) {
+                $connection = new Connection($credentials);
+            }
+
+            $this->connectorPool = new ConnectorPool($connectorNames, $connection);
         }
 
         return $this->connectorPool;
@@ -127,12 +132,16 @@ abstract class AbstractApplication
      *
      * @param string $name
      *
-     * @return array
+     * @return array|bool
      */
-    private function loadConfig(string $name) : array
+    private function loadConfig(string $name) : ?array
     {
         if (! $this->config[$name]) {
-            $this->config[$name] = (array) json_decode(file_get_contents(GLOBAL_DIR . '/config/' . $name . '.json'));
+            if ($content = @file_get_contents(GLOBAL_DIR . '/config/' . $name . '.json')) {
+                $this->config[$name] = (array) json_decode($content);
+            } else {
+                return null;
+            }
         }
 
         return $this->config[$name];
