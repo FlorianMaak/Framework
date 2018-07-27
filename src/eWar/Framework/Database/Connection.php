@@ -38,7 +38,7 @@ class Connection
     {
         $this->currentIndex = 0;
         $this->pdo = new \PDO(
-            'mysql:host=' . $credentials['host'] . ';dbname=' . $credentials['database'],
+            'mysql:host=' . $credentials['host'] . ';charset=utf8mb4;dbname=' . $credentials['database'],
             $credentials['user'],
             $credentials['password']
         );
